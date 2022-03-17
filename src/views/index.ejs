@@ -9,8 +9,11 @@
 </head>
 
 <body>
-    <form action="/login" method="post">
+    <% locals.erros && erros.forEach((erro) => { %>
+    <p><%= erro.msg %></p>
+    <% }) %>
 
+    <form action="/login" method="post">
         <label for="login">Login</label>
         <input id="login" type="text" name="login">
 

@@ -31,7 +31,11 @@ function imprimindoParametro(request, response, next) {
 }
 
 const validarLogin = [
-    body('login').notEmpty().withMessage('Deve preencher o login')
+    body('login').notEmpty()
+        .withMessage('Deve preencher o login').bail()
+        .isEmail().withMessage('Deve ser email'),
+    body('senha').notEmpty()
+        .withMessage('Deve preencher a senha')
 ]
 
 // Definindo ejs como template e pastatas da views
@@ -51,9 +55,9 @@ app.get('/login', (request, response) => {
 app.post('/login', validarLogin, (request, response) => {
     const erros = validationResult(request);
 
-    console.log(erros);
+    console.log(erros.array());
 
-    response.render('index');
+    response.render('index', { erros: erros.array() });
 });
 
 app.get('/fotos/:idFoto', imprimindoParametro, (request, response) => {
